@@ -8,7 +8,7 @@ function blaster () {
         pewpew.change(LedSpriteProperty.Y, 1)
         basic.pause(140)
     }
-    if (pewpew.isTouching(player)){
+    if (pewpew.isTouching(player)) {
         game.gameOver()
     }
     pew = 0
@@ -21,8 +21,15 @@ input.onButtonPressed(Button.AB, function () {
         laser.change(LedSpriteProperty.Y, -1)
         basic.pause(140)
     }
-    if (laser.isTouching(enemy)){
+    if (laser.isTouching(enemy)) {
         enemy.delete()
+        game.addScore(1)
+        enemy = game.createSprite(randint(0, 4), 0)
+    }
+    if (laser.get(LedSpriteProperty.X)==enemy.get(LedSpriteProperty.X)){
+        basic.pause (randint (550,570))
+        enemy.change(LedSpriteProperty.X,1)
+        basic.pause(500)
     }
     blast = 0
     laser.delete()
@@ -51,17 +58,13 @@ basic.forever(function () {
         enemy.change(LedSpriteProperty.X, -1)
         basic.pause(randint(50, 1000))
     }
+    
+})
+basic.forever(function () {
     if (pew == 1 && blast == 1) {
         if (pewpew.isTouching(laser)) {
             pewpew.delete()
             laser.delete()
-            basic.showLeds(`
-                # # # # #
-                # # # # #
-                # # # # #
-                # # # # #
-                # # # # #
-                `,100)
         }
     }
 })
